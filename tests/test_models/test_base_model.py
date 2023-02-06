@@ -20,7 +20,8 @@ class TestBaseModel(unittest.TestCase):
 
     def test_str(self):
         """ Tests to validate string """
-        self.assertIn(bm.id, str(bm))
+        expected_string = "[BaseModel] ({}) {{'id: {}, 'created_at': {}, 'updated_at': {}"}}".format(bm.id, bm.id, bm.created_at, bm.updated_at)
+        self.assertEqual(str(bm), expected_string)
 
     def test_dictionary(self):
         """ Tests dict """
