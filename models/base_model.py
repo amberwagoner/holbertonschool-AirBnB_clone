@@ -1,24 +1,31 @@
 #!/usr/bin/python3
 """ AirBnB BaseModel """
-import uuid
-import datetime
+from datetime import datetime
+from uuid import uuid4
+
 
 class BaseModel:
     """ Base Model """
-    def __init__(self) -> None:
-        pass
+    def __init__(self, *args, **kwargs):
+        """ Initialize base model """
+        self.id = str(uuid4())
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
 
-    def id(self):
-        """ Assign string with an uuid """
-        uuid.uuid4()
-        str(uuid.uuid4())
-        uuid.uuid4().hex
+    def __str__(self):
+        """ Return string representation of BaseModel """
+        class_name = self.__class__.__name__
+        return "[{}] ({}) {}".format(class_name, self.id, self.__dict__)
 
-    def created_at(self):
-        """ Assign with current datetime """
-        now = datetime.datetime.now()
+    def save(self):
+        """ Update the attribute update_at with current datetime """
+        self.updated_at = datetime.now
+        models.storage.save()
 
-    def updated_at(self):
-        """ Update with current datetime """
-        now = datetime.datetime.now()
-        self.last_accessed = datetime.now()
+    def to_dict(self):
+        """ Returns a dictionary containing all heys/values of __dict__ """
+        book = self.__dict__.copy()
+        book["created_at"] = self.created_at.isoformat()
+        book["updated_at"] = self.updated_at.isoformat()
+        book["__class__"] = self.__class__.__name__
+        return book
