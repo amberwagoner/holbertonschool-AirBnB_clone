@@ -8,16 +8,19 @@ from models.base_model import BaseModel
 
 class TestBaseModel(unittest.TestCase):
     """ Testing the BaseModel class """
+
+    def setUp(self):
+        bm = BaseModel()
+
     def test_bm_init(self):
         """ Tests for init """
-        bm = BaseModel()
         self.assertIsInstance(bm.id, str)
         self.assertIsInstance(bm.created_at, datetime)
         self.assertIsInstance(bm.updated_at, datetime)
+        self.assertEqual(bm.created_at, bm.updated_at)
 
     def test_dictionary(self):
         """ Tests dict """
-        bm = BaseModel()
         book = bm.to_dict()
         self.assertIsInstance(book, dict)
         self.assertIsInstance(book["created_at"], str)
@@ -25,7 +28,6 @@ class TestBaseModel(unittest.TestCase):
 
     def test_save(self):
         """ Tests save """
-        bm = BaseModel()
         create = bm.created_at
         update = bm.updated_at
         bm.save()
@@ -34,9 +36,9 @@ class TestBaseModel(unittest.TestCase):
 
     def test_twobm(self):
         """ Tests if two BaseModels are equal """
-        bm = BaseModel()
         bm2 = BaseModel()
         self.assertNotEqual(bm.id, bm2.id)
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     unittest.main()
