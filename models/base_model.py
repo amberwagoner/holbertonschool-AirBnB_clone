@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ AirBnB BaseModel """
-from datetime import datetime
+from datetime import datetime as date
 from uuid import uuid4
 import models
 
@@ -9,9 +9,18 @@ class BaseModel:
     """ Base Model """
     def __init__(self, *args, **kwargs):
         """ Initialize base model """
+        time_format = "%Y-%m-%dT%H:%M:%S.%f"
         self.id = str(uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        self.created_at = date.now()
+        self.updated_at = date.now()
+        if kwargs:
+            for key, value in kwargs.items():
+                if key == "created_at" or key == "updated_at":
+                    setattr(self, key, date.strptime(value, time_format))
+                elif key == "__class__":
+                    continue
+                else:
+                    setattr(self, key, value)
 
     def __str__(self):
         """ Return string representation of BaseModel """
@@ -20,7 +29,7 @@ class BaseModel:
 
     def save(self):
         """ Update the attribute update_at with current datetime """
-        self.updated_at = datetime.now()
+        self.updated_at = date.now()
 
     def to_dict(self):
         """ Returns a dictionary containing all heys/values of __dict__ """
