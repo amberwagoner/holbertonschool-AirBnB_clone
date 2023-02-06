@@ -45,7 +45,7 @@ class TestBaseModel(unittest.TestCase):
     def test_twobm(self):
         """ Tests if two BaseModels are equal """
         bm2 = BaseModel()
-        self.assertEqual(bm.id, bm2.id)
+        self.assertNotEqual(bm.id, bm2.id)
 
 
 if __name__ == "__main__":
