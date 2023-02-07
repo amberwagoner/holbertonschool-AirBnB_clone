@@ -21,6 +21,8 @@ class BaseModel:
                     continue
                 else:
                     setattr(self, key, value)
+        else:
+            models.storage.new(self)
 
     def __str__(self):
         """ Return string representation of BaseModel """
@@ -30,6 +32,7 @@ class BaseModel:
     def save(self):
         """ Update the attribute update_at with current datetime """
         self.updated_at = date.now()
+        models.storage.save()
 
     def to_dict(self):
         """ Returns a dictionary containing all heys/values of __dict__ """
