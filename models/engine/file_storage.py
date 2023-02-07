@@ -2,7 +2,12 @@
 """ Class that serializes instances to JSON file and vice versa """
 import json
 from models.base_model import BaseModel
-from os import path
+from models.user import User
+from models.state import State
+from Models.place import Place
+from models.amenity import Amenity
+from models.review import Review
+from models.city import City
 
 
 class FileStorage:
@@ -33,3 +38,7 @@ class FileStorage:
                 for key, value in dict.items():
                     class = value["__class__"]
                     self.new(eval(class)(**value))
+
+
+    except FileNotFoundError:
+        pass
