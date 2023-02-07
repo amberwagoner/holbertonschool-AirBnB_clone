@@ -1,70 +1,72 @@
 #!/usr/bin/python3
-""" Unittests for models/base_model.py """
 import unittest
 import uuid
-from datetime import datetime as date
-import models.base_model
+from datetime import datetime
 from models.base_model import BaseModel
 
 
 class TestBaseModel(unittest.TestCase):
-    """ Testing the BaseModel class """
+    """TASK 1 UNIT TESTS"""
+    def test_bas_mod_id(self):
+        bm1 = BaseModel()
+        self.assertIsInstance(bm1.id, str)
 
-    def setUp(self):
-        bm = BaseModel()
+    def test_bas_mod_crt(self):
+        bm1 = BaseModel()
+        self.assertIsInstance(bm1.created_at, datetime)
 
-    def test_basemodel_initializing(self):
-        """ Tests for init """
-        bm = BaseModel()
-        self.assertIsInstance(bm.id, str)
-        self.assertIsInstance(bm.created_at, date)
-        self.assertIsInstance(bm.updated_at, date)
+    def test_bas_mod_upd(self):
+        bm1 = BaseModel()
+        self.assertIsInstance(bm1.updated_at, datetime)
 
-    def test_dictionary(self):
-        """ Tests dict """
-        bm = BaseModel()
-        book = bm.to_dict()
-        self.assertIsInstance(book, dict)
-        self.assertIsInstance(book["created_at"], str)
-        self.assertIsInstance(book["updated_at"], str)
-
-    def test_save(self):
-        """ Tests save """
-        bm = BaseModel()
-        create = bm.created_at
-        update = bm.updated_at
-        bm.save()
-        self.assertEqual(bm.created_at, create)
-        self.assertNotEqual(bm.updated_at, update)
-
-    def test_two_basemodel(self):
-        """ Tests if two BaseModels are equal """
-        bm = BaseModel()
+    def test_uwu_id(self):
+        bm1 = BaseModel()
         bm2 = BaseModel()
-        self.assertNotEqual(bm.id, bm2.id)
+        self.assertNotEqual(bm1.id, bm2.id)
 
-    def test_kwargs(self):
-        """ Test initialization with kwargs """
-        create = '2023-04-20T00:00:00.000000'
-        update = '2023-04-20T00:00:00.000000'
-        time_format = "%Y-%m-%dT%H:%M:%S.%f"
-        bm = BaseModel(id="69", created_at=create, updated_at=update)
-        self.assertEqual(bm.id, "69")
-        self.assertEqual(bm.created_at, date.strptime(create, time_format))
-        self.assertEqual(bm.updated_at, date.strptime(create, time_format))
+    def test_ini_tim(self):
+        bm1 = BaseModel()
+        self.assertEqual(bm1.created_at, bm1.updated_at)
 
-    def test_kwargs_none(self):
-        """ Tests if None is present in kwargs """
-        with self.assertRaises(TypeError):
-            bm = BaseModel(id=None,
-                          created_at=None,
-                          updated_at=None,
-                          name=None)
-            self.assertTrue(hasattr(bm, "id"))
-            self.assertTrue(hasattr(bm, "created_at"))
-            self.assertTrue(hasattr(bm, "updated_at"))
-            self.assertTrue(hasattr(bm, "name"))   
+    def test_sav_upd_met(self):
+        bm1 = BaseModel()
+        cat = bm1.created_at
+        uat = bm1.updated_at
+        bm1.save()
+        self.assertEqual(bm1.created_at, cat)
+        self.assertNotEqual(bm1.updated_at, uat)
+
+    def test_richard(self):
+        bm1 = BaseModel()
+        richard = bm1.to_dict()
+        self.assertIsInstance(richard, dict)
+        self.assertIsInstance(richard["updated_at"], str)
+        self.assertIsInstance(richard["created_at"], str)
+
+    def test_str_met(self):
+        bm1 = BaseModel()
+        self.assertIn(bm1.id, str(bm1))
 
 
-if __name__ == '__main__':
+class TestBaseModel2(unittest.TestCase):
+    "TASK 2 UNIT TESTS"
+    def test_init_with_kwargs(self):
+        created_at = '2023-04-20T00:00:00.000000'
+        updated_at = '2023-04-20T00:00:00.000000'
+        richard1 = {
+            'id': 'villager',
+            'created_at': created_at,
+            'updated_at': updated_at,
+            'name': 'uwu'
+        }
+        bm1 = BaseModel(**richard1)
+        self.assertEqual(bm1.id, 'villager')
+        self.assertEqual(bm1.created_at,
+                         datetime.strptime(created_at, '%Y-%m-%dT%H:%M:%S.%f'))
+        self.assertEqual(bm1.updated_at,
+                         datetime.strptime(updated_at, '%Y-%m-%dT%H:%M:%S.%f'))
+        self.assertEqual(bm1.name, 'uwu')
+
+
+if __name__ == "__main__":
     unittest.main()
