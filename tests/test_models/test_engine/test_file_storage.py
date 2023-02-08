@@ -43,7 +43,7 @@ class TestFileStorage(unittest.TestCase):
         self.file_storage.reload()
         objects = self.file_storage.all()
         self.assertEqual(obj.to_dict()
-                         objects["BaseModel.{}".format(obj.id)].to_dict())
+            objects["BaseModel.{}".format(obj.id)].to_dict())
 
     def tearDown(self):
         if os.path.exists(self.file_path):

@@ -11,8 +11,8 @@ class BaseModel:
         """ Initialize base model """
         time_format = "%Y-%m-%dT%H:%M:%S.%f"
         self.id = str(uuid4())
-        self.created_at = date.now()
-        self.updated_at = date.now()
+        self.created_at = date.today()
+        self.updated_at = date.today()
         if kwargs:
             for key, value in kwargs.items():
                 if key == "created_at" or key == "updated_at":
@@ -31,7 +31,7 @@ class BaseModel:
 
     def save(self):
         """ Update the attribute update_at with current datetime """
-        self.updated_at = date.now()
+        self.updated_at = date.today()
         models.storage.save()
 
     def to_dict(self):
