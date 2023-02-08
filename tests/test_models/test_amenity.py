@@ -1,14 +1,14 @@
 #!/usr/bin/python3
-"""Amenity Module Tests"""
+"""AMENITY MODULE TESTS"""
 import unittest
 import models
 import os
-from dattime import datetime
+from datetime import datetime
 from models.amenity import Amenity
 
 
 class TestAmenityModel(unittest.TestCase):
-    """Unit Test Task 10"""
+    """TASK 10 UNIT TESTS"""
     def test_init(self):
         self.assertEqual(Amenity, type(Amenity()))
 
