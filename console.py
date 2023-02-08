@@ -1,6 +1,5 @@
-<<<<<<< HEAD
 #!/usr/bin/python3
-"""console mdule"""
+"""console module"""
 import cmd
 from models.base_model import *
 from models import storage
@@ -15,8 +14,8 @@ from models.review import Review
 class HBNBCommand(cmd.Cmd):
     """HBNB Class"""
     prompt = '(hbnb) '
-    cls_lst = ["Review", "Place", "State", "User",
-               "BaseModel", "City", "Amenity"]
+    cls_lst = ["Review", "Place", "State",
+               "User", "BaseModel", "City", "Amenity"]
     res_att = ["created_at", "updated_at", "id"]
 
     def do_quit(self, line):
@@ -24,17 +23,21 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_EOF(self, line):
-        """end of file message"""
+        """give message"""
         print("Goodbye")
         return True
 
     def emptyline(self):
-        """empty and pass"""
+        """dont do anything if empty line"""
         pass
 
     def do_create(self, line):
+        """to create"""
         arg_str = line.split()
         if len(arg_str) == 0:
+            print("** class name missing **")
+            return
+        if line not in HBNBCommand.cls_lst:
             print("** class doesn't exist **")
             return
         try:
@@ -46,6 +49,7 @@ class HBNBCommand(cmd.Cmd):
             pass
 
     def do_show(self, line):
+        """to show"""
         if line == "":
             print("** class name missing **")
             return
@@ -66,6 +70,7 @@ class HBNBCommand(cmd.Cmd):
         print(obj)
 
     def do_destroy(self, line):
+        """placeholder"""
         if not line:
             print("** class name missing **")
             return
@@ -87,6 +92,7 @@ class HBNBCommand(cmd.Cmd):
         return
 
     def do_all(self, line):
+        """placeholder"""
         if line == "":
             print([str(ii) for ii in storage.all().values()])
             return
@@ -96,6 +102,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
     def do_update(self, line):
+        """placeholder"""
         args = line.split(maxsplit=3)
         num_args = len(args)
         if num_args < 4:
