@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Class that serializes instances to JSON file and vice versa """
 import json
+from os import path
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
