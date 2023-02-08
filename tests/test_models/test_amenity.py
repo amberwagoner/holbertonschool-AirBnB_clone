@@ -15,7 +15,7 @@ class TestAmenityModel(unittest.TestCase):
     def test_name_pub(self):
         pool = Amenity()
         self.assertEqual(str, type(Amenity.name))
-        self.assertIn("name", dir(Ameity()))
+        self.assertIn("name", dir(Amenity()))
         self.assertNotIn("name", pool.__dict__)
 
 
