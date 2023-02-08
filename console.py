@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """console module"""
 import cmd
-from models.base_model import *
+import models
+from models.base_model import BaseModel
 from models import storage
 from models.user import User
 from models.state import State
@@ -13,43 +14,45 @@ from models.review import Review
 
 class HBNBCommand(cmd.Cmd):
     """HBNB Class"""
-    prompt = '(hbnb) '
-    cls_lst = ["Review", "Place", "State",
-               "User", "BaseModel", "City", "Amenity"]
-    res_att = ["created_at", "updated_at", "id"]
+    prompt = "(hbnb) "
+    models = {
+        "Review",
+        "Place",
+        "State",
+        "User",
+        "BaseModel",
+        "City",
+        "Amenity"
+    }
+    commands = {"all", "count", "destroy", "show", "update"}
 
     def do_quit(self, line):
         """escape hatch"""
         return True
 
     def do_EOF(self, line):
-        """give message"""
-        print("Goodbye")
+        """end of file message"""
+        print()
         return True
 
     def emptyline(self):
-        """dont do anything if empty line"""
+        """empty and pass"""
         pass
 
-    def do_create(self, line):
-        """to create"""
-        arg_str = line.split()
-        if len(arg_str) == 0:
-            print("** class name missing **")
-            return
-        if line not in HBNBCommand.cls_lst:
+    def do_create(self, cls):
+        """ Create a new class and print id """
+        if not cls:
+            return(print("** class name missing **"))
+        if ' ' in cls:
+            cls = cls.split(' ')[0]
+        if cls not in HBNBCommand.models:
             print("** class doesn't exist **")
-            return
-        try:
-            cls = eval(line)()
-            cls.save()
-            print(cls.id)
-            return
-        except (NameError, AttributeError):
-            pass
+        else:
+            new_class = eval(cls)()
+            print(new_class.id)
+            new_class.save()
 
     def do_show(self, line):
-        """to show"""
         if line == "":
             print("** class name missing **")
             return
@@ -70,7 +73,6 @@ class HBNBCommand(cmd.Cmd):
         print(obj)
 
     def do_destroy(self, line):
-        """placeholder"""
         if not line:
             print("** class name missing **")
             return
@@ -92,17 +94,15 @@ class HBNBCommand(cmd.Cmd):
         return
 
     def do_all(self, line):
-        """placeholder"""
         if line == "":
             print([str(ii) for ii in storage.all().values()])
             return
-        if line in HBNBCommand.cls_lst:
+        if line in HBNBCommand.models:
             print([str(ii) for ik, ii in storage.all().items() if line in ik])
         else:
             print("** class doesn't exist **")
 
     def do_update(self, line):
-        """placeholder"""
         args = line.split(maxsplit=3)
         num_args = len(args)
         if num_args < 4:
@@ -118,7 +118,7 @@ class HBNBCommand(cmd.Cmd):
             elif num_args == 3:
                 print("** value missing **")
                 return
-        if args[0] not in HBNBCommand.cls_lst:
+        if args[0] not in HBNBCommand.models:
             print("** class doesn't exist **")
             return
         key = "{}.{}".format(args[0], args[1])
@@ -126,7 +126,7 @@ class HBNBCommand(cmd.Cmd):
         if target is None:
             print("** no instance found **")
             return
-        if args[2] in HBNBCommand.res_att:
+        if args[2] in HBNBCommand.commands:
             return
         try:
             setattr(target, args[2], eval(args[3]))

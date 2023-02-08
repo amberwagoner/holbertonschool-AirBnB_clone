@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Class that serializes instances to JSON file and vice versa """
 import json
+from os import path
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -31,13 +32,11 @@ class FileStorage:
             json.dump(rchrd, fred)
 
     def reload(self):
-        """Deserializes jason into __objects (poor jason)"""
-        try:
-            with open(self.__file_path, encoding='utf-8') as fred:
-                richard = json.load(fred)
-                for key, value in richard.items():
-                    obj = eval(value['__class__'])(**value)
-                    self.__objects[key] = obj
 
-        except FileNotFoundError:
-            pass
+        """ Deserializes the JSON file to __objects """
+        if path.isfile(self.__file_path):
+            with open(self.__file_path) as f:
+                dict = json.load(f)
+                for key, value in dict.items():
+                    cls = value["__class__"]
+                    self.new(eval(cls)(**value))
