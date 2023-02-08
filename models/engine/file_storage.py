@@ -32,11 +32,12 @@ class FileStorage:
             json.dump(rchrd, fred)
 
     def reload(self):
+        try:
+            with open(self.__file_path, encoding='utf-8') as fred:
+                richard = json.load(fred)
+                for key, value in richard.items():
+                    obj = eval(value['__class__'])(**value)
+                    self.__objects[key] = obj
 
-        """ Deserializes the JSON file to __objects """
-        if path.isfile(self.__file_path):
-            with open(self.__file_path) as f:
-                dict = json.load(f)
-                for key, value in dict.items():
-                    cls = value["__class__"]
-                    self.new(eval(cls)(**value))
+        except FileNotFoundError:
+            pass
