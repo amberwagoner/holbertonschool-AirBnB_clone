@@ -12,4 +12,4 @@ More info coming soon!
 
 ### Examples
 
-### Amber & Taylor are freaking awesome
+### Amber & Taylor are freaking awesome!!
